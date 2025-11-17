@@ -7,4 +7,6 @@
 - Use threading to compute different parts of the variable.
 
 ### Features
-- I would like a user to be able to calculate their take-home pay.
+- I would like a user to be able to calculate their take-home pay fron various sources.
+
+## Design
