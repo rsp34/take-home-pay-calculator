@@ -1,0 +1,15 @@
+- getters and setters are not used in C++ (Java-like)
+- Class not necessary for personal - stoe the int in tax code and chage the getPersonalAllowance method
+- Returning conts things from a project
+- Tax code should have it's own copy
+- Return not as reference and not as const
+- References are for efficiency and passing data back and forth
+- Libraries have a separate include so you can separately given
+- Target link libary
+- Static vs dynamic linking
+Each CPP file is compiled separately
+- Header files expose acros - it's just copying into the top. hence the name.
+- Slower compilation for header libraries
+- Splitting cpp files enables individual units to be compiled.
+- COmpilation units.
+- More than 8-bytes use a pointer.
