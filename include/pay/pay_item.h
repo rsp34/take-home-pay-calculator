@@ -1,9 +1,6 @@
 #pragma once
 #include<string>
 
-// Add a start period
-
-
 enum class EffectType
 {
     TaxableAddition,
@@ -25,7 +22,7 @@ class PayItem{
     private:
         std::string name;
         float yearlyAmount;
-        EffectType effect;
+        EffectType effectType;
         Frequency frequency;
         int startingPeriod;
 
@@ -35,9 +32,9 @@ class PayItem{
 
         const std::string& getName() const {return name; };
         float getYearlyAmount() const {return yearlyAmount; };
-        EffectType getEffect() const { return effect; };
+        EffectType getEffect() const { return effectType; };
         Frequency getFrequency() const {return frequency; };
-        int getStartingPeriod() const {return }
+        int getStartingPeriod() const {return startingPeriod; };
 
         float getValueForPeriod(int periodNumber, int periodsPerYear) const;
         

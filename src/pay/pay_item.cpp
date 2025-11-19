@@ -1,28 +1,26 @@
 #include "pay_item.h"
 
-// Constructor
-PayItem::PayItem(const std::string& lbl, int val, EffectType t, Frequency f, int start)
-    : label(lbl), annualValue(val), type(t), freq(f), startPeriod(start) {}
+PayItem::PayItem(const std::string& name, float yearlyAmount, EffectType effectType, Frequency frequency, int startingPeriod)
+    : name(name), yearlyAmount(yearlyAmount), effectType(effectType), frequency(frequency), startingPeriod(startingPeriod) {}
 
-// getValueForPeriod: period-aware, handles start offsets
-int PayItem::getValueForPeriod(int periodNumber, int periodsPerYear) const {
-    // Before start period → value is 0
-    if (periodNumber < startPeriod) return 0;
+float PayItem::getValueForPeriod(int periodNumber, int periodsPerYear) const {
 
-    // Remaining periods for this item
-    int remainingPeriods = periodsPerYear - startPeriod + 1;
+    int startingPeriod = getStartingPeriod();
+
+    if (periodNumber < startingPeriod) return 0;
+
+    int remainingPeriods = periodsPerYear - startingPeriod + 1;
 
     int valuePerPeriod = 0;
-    switch (freq) {
+    switch (getFrequency()) {
         case Frequency::Annual:
-            // Spread remaining annual value evenly over remaining periods
-            valuePerPeriod = annualValue / remainingPeriods;
+            valuePerPeriod = getYearlyAmount() / remainingPeriods;
             break;
         case Frequency::Monthly:
-            valuePerPeriod = annualValue / 12;
+            valuePerPeriod = getYearlyAmount() / 12;
             break;
         case Frequency::Weekly:
-            valuePerPeriod = annualValue / 52;
+            valuePerPeriod = getYearlyAmount() / 52;
             break;
     }
 
