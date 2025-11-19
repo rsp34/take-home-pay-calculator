@@ -18,7 +18,7 @@ class PayItem{
         bool oneOff;      
 
     public:
-        PayItem(const std::string name, float amount, EffectType effectType, bool oneOff = false);
+        PayItem(const std::string name, float amount, EffectType effectType, bool oneOff = false) : name(name), amount(amount), effectType(effectType), oneOff(oneOff) {} ;
 
         const std::string getName() const {return name; };
         float getAmount() const {return amount; };
