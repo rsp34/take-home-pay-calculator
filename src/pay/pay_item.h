@@ -1,5 +1,5 @@
 #pragma once
-#include<string>
+#include <string>
 
 enum class EffectType
 {
@@ -9,18 +9,11 @@ enum class EffectType
     PostTaxDeduction
 };
 
-class PayItem{
-    
-    private:
-        std::string name;
-        float amount;
-        EffectType effectType;
-        bool oneOff;      
-
-    public:
-        PayItem(const std::string name, float amount, EffectType effectType, bool oneOff = false) : name(name), amount(amount), effectType(effectType), oneOff(oneOff) {} ;
-
-        const std::string getName() const {return name; };
-        float getAmount() const {return amount; };
-        EffectType getEffect() const { return effectType; };
+struct PayItem
+{
+    PayItem(const std::string name, float amount, EffectType effectType, bool oneOff = false) : name(name), amount(amount), effectType(effectType), oneOff(oneOff) {};
+    std::string name;
+    float amount;
+    EffectType effectType;
+    bool oneOff;
 };
