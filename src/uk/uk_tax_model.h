@@ -1,4 +1,5 @@
 #pragma once
+#include "../tax/tax_model.h"
 #include <string>
 
 class PersonalAllowance
