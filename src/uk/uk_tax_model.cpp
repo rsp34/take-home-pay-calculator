@@ -3,15 +3,10 @@
 #include <stdexcept>
 #include <string>
 
-// PersonalAllowance
-PersonalAllowance::PersonalAllowance(int v) { set(v); }
-void PersonalAllowance::set(int v) { value = v * 10; }
-int PersonalAllowance::get() const { return value; }
+
 
 // TaxCode
-TaxCode::TaxCode(const std::string &code) : rawCode{code}, pa(parseDigits(code)) {};
 
-int TaxCode::getPersonalAllowance() const { return pa.get(); };
 
 bool TaxCode::isValidTaxCode() const
 {

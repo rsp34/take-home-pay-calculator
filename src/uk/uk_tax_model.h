@@ -2,29 +2,32 @@
 #include "../tax/tax_model.h"
 #include <string>
 
-class PersonalAllowance
-{
-public:
-    PersonalAllowance(int v = 1257);
-    void set(int v);
-    int get() const;
-
-private:
-    int value;
-};
+int readPersonalAllowance(const std::string &code);
+std::string readCategoryLetter(const std::string &code);
 
 class TaxCode
 {
 public:
-    TaxCode(const std::string &code);
 
-    int getPersonalAllowance() const;
+    TaxCode(const std::string code) : rawCode{code}, personalAllowance(readPersonalAllowance(code)*10), categoryLetter(readCategoryLetter(code)) {};
+
+    float personalAllowance;
+    std::string categoryLetter;
+
     bool isValidTaxCode() const;
-    const std::string& getRawCode() const;
 
 private:
-    int parseDigits(const std::string &code);
-    
-    PersonalAllowance pa;
+
     std::string rawCode;
+
+};
+
+class UKNIModel : public TaxModel{
+    ~UKNIModel() = default;
+    std::string name = "UK National Insurance";
+};
+
+class UKNIModel : public TaxModel{
+    ~UKNIModel() = default;
+    std::string name = "UK National Insurance";
 };

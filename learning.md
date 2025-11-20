@@ -25,3 +25,23 @@ Each CPP file is compiled separately
 - Splitting cpp files enables individual units to be compiled.
 - COmpilation units.
 - Libraries have a separate include so you can separately give the header files.
+
+Expose a C interface.
+
+Write a header file.
+
+In C++ you forward declare what you need. C++ the order matters.
+
+Maybe add namespaces down the line.
+
+Global namespace + anonymous namespace.
+
+BY default, we get the the default destructor.
+
+Default destructor is not marked as virtual.
+
+Classes inheriting from here just keeps the destructor from this class.
+
+spdlog an argument parse
+
+`typdef int myLongNamedInt`
