@@ -31,20 +31,27 @@ EffectType separate from tax treatment - EffectType is for accounting (gross/net
 
 ### Design Summary
 1. Factory creates PayItem with appropriate TaxModels attached
+```
    └─> UKPayItemFactory.createSalary(3000)
        └─> PayItem { amount: 3000, taxModels: [IncomeTax, NI, StudentLoan] }
+```
 
 2. Payslip receives the PayItem
+```
    └─> payslip.addItem(item)
-
+```
 3. Payslip computes taxes
+```
    └─> For each PayItem:
        └─> For each TaxModel in item.taxModels:
            └─> tax = model.calculateTax(item.amount)
            └─> Accumulate totals
+```
 
 4. Payslip displays results
+```
    └─> Shows items, taxes, net pay
+```
 
 ## Technologies
 A focus of this project is understanding the features of C++.
