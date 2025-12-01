@@ -2,26 +2,6 @@
 #include<memory>
 #include<iostream>
 #include "pay_item.h"
-#inclde
-
-struct Totals
-{
-    float taxableAdditions; // Is this more of a ordering rule? Kind of a type and an order.
-    float nonTaxableAdditions;
-    float preTaxDeductions;
-    float postTaxDeductions;
-};
-
-enum class Frequency
-{
-    Annual,
-    OneOff,
-    Monthly,
-    Weekly,
-    WorkingDay,
-    Daily
-};
-
 
 class Payslip
 {

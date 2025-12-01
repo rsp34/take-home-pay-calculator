@@ -1,8 +1,10 @@
 #pragma once
 #include "../tax/tax_model.h"
+#include "../pay/frequency.h"
 #include <string>
 #include <cctype>
 #include <stdexcept>
+#include <memory>
 
 int readPersonalAllowance(const std::string &code);
 char readCategoryLetter(const std::string &code);
@@ -21,60 +23,70 @@ private:
     std::string rawCode;
 };
 
-class UKIncomeTaxModel : public TaxModel
+class UKIncomeTaxModel : public CumulativeTaxModel
 {
     ~UKIncomeTaxModel() = default;
     std::string name = "UK Income Tax";
+    std::shared_ptr<UKTaxCode> taxCode;
 
 public:
-    float calculateTax(float monthlyAmount) const override
+    float calculateTax(float periodAmount, Frequency frequency) override
     {
+        accumulatePeriod(periodAmount, frequency);
 
-        float annualAmount = monthlyAmount * 12;
+        float totalTaxDue = 0;
 
-        if (annualAmount <= 12570)
+        if (cumulativeTaxableIncome <= taxCode->personalAllowance * yearFraction())
         {
-            return 0;
+            totalTaxDue = 0;
         }
-        else if (annualAmount <= 50270)
+        else if (cumulativeTaxableIncome <= 50270 * yearFraction())
         {
-            return (annualAmount - 12570) * 0.2;
+            totalTaxDue = (cumulativeTaxableIncome - taxCode->personalAllowance * yearFraction()) * 0.2;
         }
-        else if (annualAmount <= 100000)
+        else if (cumulativeTaxableIncome <= 100000 * yearFraction())
         {
-            return ((annualAmount - 50270) * 0.4 + (50270 - 12570) * 0.2);
+            totalTaxDue = ((cumulativeTaxableIncome - 50270 * yearFraction()) * 0.4 + (50270 - 12570) * yearFraction() * 0.2);
         }
-        else if (annualAmount <= 125140)
+        else if (cumulativeTaxableIncome <= 125140 * yearFraction())
         {
-            return ((annualAmount - 50270) * 0.4 + (50270 - (12570 - (annualAmount - 100000) / 2)) * 0.2);
+            totalTaxDue = ((cumulativeTaxableIncome - 50270 * yearFraction()) * 0.4 + (50270 * yearFraction() - (12570 * yearFraction() - (cumulativeTaxableIncome - 100000 * yearFraction()) / 2)) * 0.2);
         }
         else
         {
-            return ((annualAmount - 125140) * 0.45 + (125140 - 50270) * 0.4 + (50270 - 12570) * 0.2);
+            totalTaxDue = ((cumulativeTaxableIncome - 125140 * yearFraction()) * 0.45 + (125140 - 50270) * yearFraction() * 0.4 + (50270 - 12570) * yearFraction() * 0.2);
         }
+
+        return finalizeTax(totalTaxDue);
     };
 };
 
-class UKNIModel : public TaxModel
+class UKNIModel : public CumulativeTaxModel
 {
     ~UKNIModel() = default;
     std::string name = "UK National Insurance";
 
 public:
-    float calculateTax(float monthlyAmount) const override
+    float calculateTax(float periodAmount, Frequency frequency) override
     {
+        accumulatePeriod(periodAmount, frequency);
 
-        if (monthlyAmount <= 1048)
+        float totalTaxDue = 0;
+        float yf = yearFraction();
+
+        if (cumulativeTaxableIncome <= 1048 * 12 * yf)
         {
-            return 0;
+            totalTaxDue = 0;
         }
-        else if (monthlyAmount <= 4189)
+        else if (cumulativeTaxableIncome <= 4189 * 12 * yf)
         {
-            return (monthlyAmount - 1048) * 0.08;
+            totalTaxDue = (cumulativeTaxableIncome - 1048 * 12 * yf) * 0.08;
         }
         else
         {
-            return ((monthlyAmount - 4189) * 0.02 + (4189 - 1048) * 0.08);
+            totalTaxDue = ((cumulativeTaxableIncome - 4189 * 12 * yf) * 0.02 + (4189 - 1048) * 12 * yf * 0.08);
         }
+
+        return finalizeTax(totalTaxDue);
     };
 };
