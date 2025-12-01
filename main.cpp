@@ -1,5 +1,5 @@
 #include<iostream>
-#include "uk_tax_model.h"
+#include "./src/uk/uk_tax_model.h"
 
 using namespace std; 
 
@@ -8,11 +8,11 @@ int main(){
     std::cout << "Enter tax code: ";
     std::cin >> code;
 
-    TaxCode tc(code);
+    UKTaxCode tc(code);
     
     if (!tc.isValidTaxCode()) {
         std::cerr << "Error: Invalid tax code!" << std::endl;
     } else {
-        std::cout << "Personal allowance: " << tc.getPersonalAllowance() << std::endl;
+        std::cout << "Personal allowance: " << tc.personalAllowance << std::endl;
     }
 }

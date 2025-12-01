@@ -2,26 +2,6 @@
 #include<memory>
 #include<iostream>
 #include "pay_item.h"
-#inclde
-
-struct Totals
-{
-    float taxableAdditions;
-    float nonTaxableAdditions;
-    float preTaxDeductions;
-    float postTaxDeductions;
-};
-
-enum class Frequency
-{
-    Annual,
-    OneOff,
-    Monthly,
-    Weekly,
-    WorkingDay,
-    Daily
-};
-
 
 class Payslip
 {
