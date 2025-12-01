@@ -6,7 +6,7 @@
 
 struct Totals
 {
-    float taxableAdditions;
+    float taxableAdditions; // Is this more of a ordering rule? Kind of a type and an order.
     float nonTaxableAdditions;
     float preTaxDeductions;
     float postTaxDeductions;

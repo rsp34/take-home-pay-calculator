@@ -53,6 +53,9 @@ EffectType separate from tax treatment - EffectType is for accounting (gross/net
    └─> Shows items, taxes, net pay
 ```
 
+## Project Structure
+Jurisdication-specific code is stored in seperate folders e.g. we have a `uk` folder.
+
 ## Technologies
 A focus of this project is understanding the features of C++.
 
@@ -63,3 +66,9 @@ The features I would like to leverage as part of this project are:
 3. Use of 3rd party libraries
 4. Testing in C++
 5. Create a Python wrapper
+6. Implement a REST api
+
+## Ideas
+- A "what-if" feature to compare old tax years to the present.
+- Time bounds for each rule.
+- "Company value" could also be interesting. How much is my employer paying for the benefit of employing me - main addition would be employer N.I.
