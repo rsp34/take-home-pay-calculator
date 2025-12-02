@@ -4,12 +4,11 @@
 
 class TaxModel{
     public:
-        virtual float calculateTax() = 0;
         virtual ~TaxModel() = default;
 };
 
 // For simple, non-cumulative calculations (flat fees, simple percentages)
-class SimpleTaxModel:TaxModel
+class SimpleTaxModel:public TaxModel
 {
 public:
     virtual ~SimpleTaxModel() = default;
@@ -17,7 +16,7 @@ public:
 };
 
 // For cumulative, year-to-date calculations
-class CumulativeTaxModel:TaxModel
+class CumulativeTaxModel:public TaxModel
 {
 public:
     virtual ~CumulativeTaxModel() = default;
