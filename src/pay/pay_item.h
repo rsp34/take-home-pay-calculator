@@ -2,8 +2,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-
-class TaxModel;
+#include "./tax/tax_model.h"
 
 enum class EffectType
 {

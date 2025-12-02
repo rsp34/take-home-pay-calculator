@@ -5,14 +5,8 @@
 class TaxModel{
     public:
         virtual ~TaxModel() = default;
-};
-
-// For simple, non-cumulative calculations (flat fees, simple percentages)
-class SimpleTaxModel:public TaxModel
-{
-public:
-    virtual ~SimpleTaxModel() = default;
-    virtual float calculateTax(float amount) const = 0;
+        virtual float calculateTax(float periodAmount, Frequency frequency) = 0;
+        std::string name = "Tax Model";
 };
 
 // For cumulative, year-to-date calculations
@@ -20,7 +14,7 @@ class CumulativeTaxModel:public TaxModel
 {
 public:
     virtual ~CumulativeTaxModel() = default;
-    virtual float calculateTax(float periodAmount, Frequency frequency) = 0;
+    std::string name = "Cumulative Tax Model";
 
 protected:
     float cumulativeTaxableIncome = 0;
