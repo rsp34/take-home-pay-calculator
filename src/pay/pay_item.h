@@ -13,8 +13,6 @@ enum class EffectType
     PostTaxDeduction
 };
 
-class TaxModel;
-
 struct PayItem
 {
     PayItem(const std::string name, float amount, EffectType effectType, bool oneOff = false)
