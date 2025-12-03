@@ -6,7 +6,7 @@ enum class Period
     LeapYear     = 366,
     January      = 31,
     February     = 28,
-    LeapFeburary = 29,
+    LeapFebruary = 29,
     March        = 31,
     April        = 30,
     May          = 31,
@@ -17,7 +17,7 @@ enum class Period
     October      = 31,
     November     = 30,
     December     = 31,
-    Fortnightly  = 14,
+    Fortnight    = 14,
     Week         = 7,
     Daily        = 1
 };
