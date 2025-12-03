@@ -106,4 +106,4 @@ I've attempted to estimate times here...
 - [ ] Improve the main function so it does something (2 hours)
 - [ ] Switch the main function to a CLI interface (3 hours)
 - [ ] Implement testing
-- [ ] Add some CI/CD to releases
+- [ ] Add some CI/CD and a first release
