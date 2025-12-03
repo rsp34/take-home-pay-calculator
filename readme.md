@@ -89,7 +89,7 @@ The features I would like to leverage as part of this project are:
 
 ## Ideas
 - A "what-if" feature to compare old tax years to the present.
-- Time bounds for each rule.
+- Time bounds for each rule as taxes are relevant in a given year.
 - "Company value" could also be interesting. How much is my employer paying for the benefit of employing me - main addition would be employer N.I.
 
 # ToDo
@@ -103,4 +103,7 @@ I've attempted to estimate times here...
 - [ ] Remove all the magic numbers (accounted above)
 - [ ] Break out one-liners (accounted above)
 - [ ] Overload operators to enable summation and division (3 hours)
-- [ ] Improve the main function
+- [ ] Improve the main function so it does something (2 hours)
+- [ ] Switch the main function to a CLI interface (3 hours)
+- [ ] Implement testing
+- [ ] Add some CI/CD to releases
