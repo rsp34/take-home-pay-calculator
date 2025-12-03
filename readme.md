@@ -94,7 +94,7 @@ The features I would like to leverage as part of this project are:
 
 # ToDo
 I've attempted to estimate times here...
-- [ ] Switch from frequency to period (10 minutes)
+- [x] Switch from frequency to period (10 minutes)
 - [ ] Re-implement the Tax classes (2 hours)
 - [ ] Re-implement the PayItem class to reference new tax class (0.5 hours)
 - [ ] Switch to pennies and use ratio (1 hour)
