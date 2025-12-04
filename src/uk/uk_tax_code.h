@@ -2,16 +2,20 @@
 #include <string>
 #include <stdexcept>
 #include <cctype>
+#include <cstdint>
 
-int readPersonalAllowance(const std::string &code);
+int64_t readPersonalAllowance(const std::string &code);
 char readCategoryLetter(const std::string &code);
 std::string validateTaxCode(const std::string &code);
+
+int64_t PENNIES_IN_POUND = 100;
+int64_t PERSONAL_ALLOWANCE_TO_POUNDS = 10;
 
 class UKTaxCode
 {
 public:
-    UKTaxCode(const std::string &code) : personalAllowance(readPersonalAllowance(code) * 10), categoryLetter(readCategoryLetter(code)) {};
+    UKTaxCode(const std::string &code) : personalAllowance(readPersonalAllowance(code) * PERSONAL_ALLOWANCE_TO_POUNDS * PENNIES_IN_POUND), categoryLetter(readCategoryLetter(code)) {};
 
-    const float personalAllowance;
+    const int64_t personalAllowance;
     const char categoryLetter;
 };

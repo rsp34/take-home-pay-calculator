@@ -23,8 +23,9 @@ std::string validateTaxCode(const std::string &code)
 
 }
 
-int readPersonalAllowance(const std::string &code)
+int64_t readPersonalAllowance(const std::string &code)
 {
+    // Implicitly converted to 64-bit when returned
     return std::stoi(code.substr(0, 4));
 };
 
