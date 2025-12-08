@@ -1,31 +1,16 @@
-#include<vector>
-#include<memory>
-#include<iostream>
-#include "pay_item.h"
+#include "payslip.h"
+#include "..\tax\tax_registry.h"
+#include "..\tax\tax_registration.h"
+#include "..\tax\tax_computation_strategy.h"
+#include "..\tax\tax.h"
 
-class Payslip
+void Payslip::addItem(std::shared_ptr<PayItem> item)
 {
-
-private:
-    std::vector<std::unique_ptr<PayItem>> payItems;
-    std::vector<std::vector<std::shared_ptr<TaxModel>>> taxModels;
-    std::vector<std::vector<float>> taxes;
-    Frequency frequency;
-
-public:
-    void addItem(std::unique_ptr<PayItem> item, std::vector<std::shared_ptr<TaxModel>>  itemTaxModels)
-    {    
-        payItems.push_back(std::move(item));
-        taxModels.push_back(std::move(itemTaxModels));
-    };
-
-    void computeTaxes()
-
-    void print_payslip(){
-        // Convert to padding as a table would be nice here...
-        for (const auto& item : items){
-            std::cout << item->getName() << ", " << item->getValueForPeriod(0) << "\n";
-        }
-    }
-
+    payItems_.push_back(std::move(item));
 };
+
+void Payslip::computeTaxes(){
+    for (const auto& [taxName, registration] : registry_->registrations_){
+        registration.strategy_->computeTax(taxName,*registration.calculator_,payItems_);
+    }
+}

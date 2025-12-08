@@ -194,8 +194,9 @@ The features I would like to leverage as part of this project are:
   - [x] Implement CumulativeTaxStrategy and FlatTaxStrategy
   - [x] Create TaxRegistry
   - [x] Create UK tax name constants
-  - [ ] Update PayItem with applicableTaxes and taxAmounts
+  - [x] Update PayItem with applicableTaxes and taxAmounts
   - [ ] Rewrite Payslip.computeTaxes() to use registry
+  - [ ] Clarify nomenclature around compute and calculate as it's confusing
   - [ ] Create UK tax setup with registration
 - [ ] Complete UKIncomeTax and UKNationalInsurance implementations
 - [ ] Overload operators for summation and division
