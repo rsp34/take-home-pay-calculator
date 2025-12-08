@@ -190,10 +190,10 @@ The features I would like to leverage as part of this project are:
 - [x] Switch to pennies and use int64_t
 - [x] Each class in separate file with headers
 - [ ] Implement Strategy + Registry pattern for tax computation
-  - [ ] Create TaxComputationStrategy interface
-  - [ ] Implement CumulativeTaxStrategy and FlatTaxStrategy
-  - [ ] Create TaxRegistry
-  - [ ] Create UK tax name constants
+  - [x] Create TaxComputationStrategy interface
+  - [x] Implement CumulativeTaxStrategy and FlatTaxStrategy
+  - [x] Create TaxRegistry
+  - [x] Create UK tax name constants
   - [ ] Update PayItem with applicableTaxes and taxAmounts
   - [ ] Rewrite Payslip.computeTaxes() to use registry
   - [ ] Create UK tax setup with registration
