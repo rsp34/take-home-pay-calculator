@@ -1,30 +1,10 @@
 #pragma once
-#include "../tax/tax_model.h"
-#include "../pay/frequency.h"
-#include <string>
-#include <cctype>
-#include <stdexcept>
-#include <memory>
+#include "../tax/tax.h"
+#include "../time/period.h"
 
-int readPersonalAllowance(const std::string &code);
-char readCategoryLetter(const std::string &code);
-
-class UKTaxCode
-{
-public:
-    UKTaxCode(const std::string code) : rawCode{code}, personalAllowance(readPersonalAllowance(code) * 10), categoryLetter(readCategoryLetter(code)) {};
-
-    float personalAllowance;
-    char categoryLetter;
-
-    bool isValidTaxCode() const;
-
-private:
-    std::string rawCode;
-};
-
-class UKIncomeTaxModel : public CumulativeTaxModel
-{
+class UKIncomeTax : public Tax
+{   
+    UKIncomeTax(std::shared_ptr<UKTaxCode> taxCode, period Period) : taxCode{taxCode}, 
     ~UKIncomeTaxModel() = default;
     std::string name = "UK Income Tax";
     std::shared_ptr<UKTaxCode> taxCode;

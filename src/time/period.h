@@ -1,23 +1,23 @@
 #pragma once
 
-enum class Period
+namespace Period
 {
-    Year         = 365,
-    LeapYear     = 366,
-    January      = 31,
-    February     = 28,
-    LeapFebruary = 29,
-    March        = 31,
-    April        = 30,
-    May          = 31,
-    June         = 30,
-    July         = 31,
-    August       = 31,
-    September    = 31,
-    October      = 31,
-    November     = 30,
-    December     = 31,
-    Fortnight    = 14,
-    Week         = 7,
-    Daily        = 1
+    constexpr int Year         = 365;
+    constexpr int LeapYear     = 366;
+    constexpr int January      = 31;
+    constexpr int February     = 28;
+    constexpr int LeapFebruary = 29;
+    constexpr int March        = 31;
+    constexpr int April        = 30;
+    constexpr int May          = 31;
+    constexpr int June         = 30;
+    constexpr int July         = 31;
+    constexpr int August       = 31;
+    constexpr int September    = 31;
+    constexpr int October      = 31;
+    constexpr int November     = 30;
+    constexpr int December     = 31;
+    constexpr int Fortnight    = 14;
+    constexpr int Week         = 7;
+    constexpr int Daily        = 1;
 };

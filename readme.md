@@ -3,6 +3,7 @@
 ## Requirements
 - A user may predict their payslip, including for multiple jobs, by entering their annual salary and benefits.
 - A user may enter their current payslip, including for multiple jobs, and see this scaled to other frequencies.
+- We want proportional and marginal taxation view.
 - Frequencies of interest are daily, work day, weekly, monthly and annually.
 - Looping over the would be interesting.
 
