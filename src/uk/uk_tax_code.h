@@ -8,8 +8,8 @@ int64_t readPersonalAllowance(const std::string &code);
 char readCategoryLetter(const std::string &code);
 std::string validateTaxCode(const std::string &code);
 
-int64_t PENNIES_IN_POUND = 100;
-int64_t PERSONAL_ALLOWANCE_TO_POUNDS = 10;
+inline constexpr int64_t PENNIES_IN_POUND = 100;
+inline constexpr int64_t PERSONAL_ALLOWANCE_TO_POUNDS = 10;
 
 class UKTaxCode
 {
