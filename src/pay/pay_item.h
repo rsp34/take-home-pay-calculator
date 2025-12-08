@@ -7,8 +7,6 @@
 #include <cstdint>
 #include <stdexcept>
 
-class TaxModel;
-
 enum class EffectType
 {
     TaxableAddition,
