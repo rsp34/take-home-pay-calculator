@@ -30,7 +30,7 @@ struct PayItem
     int64_t amount_;
     EffectType effectType_;
     bool oneOff_;
-    std::vector<std::string> taxes_;
+    std::vector<std::string> applicableTaxes_;
     std::map<std::string, int64_t> taxAmounts_;
 
     bool hasTax(std::string taxName);

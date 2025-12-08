@@ -2,7 +2,7 @@
 #include "pay_item.h"
 
 bool PayItem::hasTax(std::string taxName){
-    return (std::find(taxes_.begin(),taxes_.end(),taxName) != taxes_.end());
+    return (std::find(applicableTaxes_.begin(),applicableTaxes_.end(),taxName) != applicableTaxes_.end());
 };
 
 int64_t PayItem::getTaxableAmount() const{
