@@ -23,7 +23,7 @@ The project is split into 5 components:
 
 3. **TaxComputationStrategy**: Accumulation logic - defines how to apply a tax across multiple items
    - `CumulativeTaxStrategy`: Accumulates amounts, calculates once, distributes proportionally
-   - `AtomicTaxStrategy`: Calculates per item independently
+   - `FlatTaxStrategy`: Calculates per item independently
 
 4. **TaxRegistry**: Configuration - maps tax names to calculators and strategies
    - Created once per jurisdiction at startup
@@ -34,7 +34,7 @@ The project is split into 5 components:
 #### Tax Calculation Flow
 
 **Two types of taxes:**
-- **Atomic taxes** (Employer NI, pensions): Calculate independently per item
+- **Flat taxes** (Employer NI, pensions): Calculate independently per item
 - **Cumulative taxes** (Income Tax, Employee NI): Accumulate across items, then attribute back
 
 **Architecture:**
@@ -80,7 +80,7 @@ Each jurisdiction (UK, US, etc.) provides:
        │   └─> UKEmployerNI(period)
        ├─> Creates reusable strategies:
        │   ├─> CumulativeTaxStrategy (shared)
-       │   └─> AtomicTaxStrategy (shared)
+       │   └─> FlatTaxStrategy (shared)
        └─> TaxRegistry
            ├─> UKTaxNames::INCOME_TAX → (UKIncomeTax, CumulativeStrategy)
            └─> UKTaxNames::EMPLOYEE_NI → (UKNationalInsurance, CumulativeStrategy)
@@ -93,7 +93,7 @@ Each jurisdiction (UK, US, etc.) provides:
              name: "Salary",
              amount: 3000,
              effectType: TaxableAddition,
-             applicableTaxes: [UKTaxNames::INCOME_TAX, UKTaxNames::EMPLOYEE_NI],
+             taxes: [UKTaxNames::INCOME_TAX, UKTaxNames::EMPLOYEE_NI],
              taxAmounts: {} (empty until computed)
            }
 ```
@@ -154,7 +154,7 @@ src/
 │  ├─ tax.h                         # Tax interface
 │  ├─ tax_computation_strategy.h    # Strategy interface
 │  ├─ cumulative_tax_strategy.h/cpp # Cumulative logic
-│  ├─ atomic_tax_strategy.h/cpp     # Atomic logic
+│  ├─ flat_tax_strategy.h/cpp       # Flat logic
 │  └─ tax_registry.h/cpp            # Registry
 ├─ pay/                              # Pay domain models (jurisdiction-agnostic)
 │  ├─ pay_item.h                    # PayItem with EffectType
@@ -191,7 +191,7 @@ The features I would like to leverage as part of this project are:
 - [x] Each class in separate file with headers
 - [ ] Implement Strategy + Registry pattern for tax computation
   - [ ] Create TaxComputationStrategy interface
-  - [ ] Implement CumulativeTaxStrategy and AtomicTaxStrategy
+  - [ ] Implement CumulativeTaxStrategy and FlatTaxStrategy
   - [ ] Create TaxRegistry
   - [ ] Create UK tax name constants
   - [ ] Update PayItem with applicableTaxes and taxAmounts
