@@ -29,7 +29,7 @@ class UKIncomeTax : public Tax
     }
 
 public:
-    int64_t calculateTax(int64_t cumulativeIncome) const override;
+    int64_t calculateTax(int64_t taxableAmount) const override;
     UKIncomeTax operator+(const UKIncomeTax);
     UKIncomeTax operator-(const UKIncomeTax);
     UKIncomeTax operator/(const UKIncomeTax);
