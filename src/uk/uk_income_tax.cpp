@@ -16,8 +16,8 @@ int64_t UKIncomeTax::calculateTax(int64_t taxableAmount) const
     }
 
     if (taxableAmount <= periodHigherThreshold) {
-        int64_t taxableIncome = taxableAmount - periodPersonalAllowance;
-        return applyRate<BASIC_RATE>(taxableIncome);
+        int64_t basicBandIncome = taxableAmount - periodPersonalAllowance;
+        return applyRate<BASIC_RATE>(basicBandIncome);
     }
 
     if (taxableAmount <= periodTaperingThreshold) {
