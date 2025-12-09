@@ -12,9 +12,9 @@ void Payslip::addItem(std::shared_ptr<PayItem> item)
     payItems_.push_back(std::move(item));
 };
 
-void Payslip::computeTaxes(){
+void Payslip::applyTaxes(){
     for (const auto& [taxName, registration] : registry_->registrations_){
-        registration.strategy_->computeTax(taxName,*registration.calculator_,payItems_);
+        registration.strategy_->applyTax(taxName,*registration.calculator_,payItems_);
     }
 }
 

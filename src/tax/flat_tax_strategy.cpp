@@ -2,7 +2,7 @@
 #include "../pay/pay_item.h"
 #include "../tax/tax.h"
 
-void FlatTaxStrategy::computeTax(
+void FlatTaxStrategy::applyTax(
     const std::string &taxName,
     const Tax &calculator,
     std::vector<std::shared_ptr<PayItem>> &payItems) const

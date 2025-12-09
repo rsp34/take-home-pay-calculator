@@ -12,7 +12,7 @@ class TaxComputationStrategy
 public:
     virtual ~TaxComputationStrategy() = default;
 
-    virtual void computeTax(
+    virtual void applyTax(
         const std::string &taxName,
         const Tax &calculator,
         std::vector<std::shared_ptr<PayItem>> &payItems) const = 0;

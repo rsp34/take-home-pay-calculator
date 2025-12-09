@@ -4,7 +4,7 @@
 
 class CumulativeTaxStrategy : public TaxComputationStrategy{
     public:
-    void computeTax(
+    void applyTax(
         const std::string& taxName,
         const Tax& calculator,
         std::vector<std::shared_ptr<PayItem>>& payItems
