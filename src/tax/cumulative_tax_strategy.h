@@ -4,6 +4,8 @@
 
 class CumulativeTaxStrategy : public TaxComputationStrategy{
     public:
+    virtual ~CumulativeTaxStrategy() = default;
+
     void applyTax(
         const std::string& taxName,
         const Tax& calculator,

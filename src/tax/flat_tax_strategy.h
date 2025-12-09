@@ -4,6 +4,8 @@
 
 class FlatTaxStrategy : public TaxComputationStrategy{
     public:
+    virtual ~FlatTaxStrategy() = default;
+
     void applyTax(
         const std::string& taxName,
         const Tax& calculator,
