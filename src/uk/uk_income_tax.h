@@ -1,10 +1,9 @@
 #pragma once
 #include <memory>
-#include <cstdint>
 #include <ratio>
-#include "../time/period.h"
 #include "../tax/tax.h"
-#include "uk_tax_code.h"
+
+class UKTaxCode;
 
 constexpr int NO_INCOME_TAX_DUE = 0;
 using BASIC_RATE = std::ratio<2,10>;
@@ -18,11 +17,10 @@ constexpr int64_t ADDITIONAL_RATE_THRESHOLD = 125140;
 
 class UKIncomeTax : public Tax
 {
-    UKIncomeTax(std::shared_ptr<UKTaxCode> taxCode, int period) : taxCode{taxCode}, period{period} {}
+    UKIncomeTax(std::shared_ptr<UKTaxCode> taxCode, int period) : taxCode_{taxCode}, period_{period} {}
     ~UKIncomeTax() = default;
-    const std::string name = "UK Income Tax";
-    const std::shared_ptr<UKTaxCode> taxCode;
-    const int period;
+    const std::shared_ptr<UKTaxCode> taxCode_;
+    const int period_;
 
     // Helper to apply a tax rate ratio to an amount
     template<typename Rate>
@@ -33,5 +31,7 @@ class UKIncomeTax : public Tax
 public:
     int64_t calculateTax(int64_t cumulativeIncome) const override;
     UKIncomeTax operator+(const UKIncomeTax);
+    UKIncomeTax operator-(const UKIncomeTax);
     UKIncomeTax operator/(const UKIncomeTax);
+    UKIncomeTax operator*(const UKIncomeTax);
 };

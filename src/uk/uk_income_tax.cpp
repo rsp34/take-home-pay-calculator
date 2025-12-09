@@ -1,13 +1,15 @@
 #include "uk_income_tax.h"
+#include "uk_tax_code.h"
+#include "../time/period.h"
 
 int64_t UKIncomeTax::calculateTax(int64_t cumulativeIncome) const
 {
-    // Calculate all period-adjusted thresholds once
-    const int64_t periodPersonalAllowance = (taxCode->personalAllowance * period) / Period::Year;
-    const int64_t periodBasicThreshold = (BASIC_RATE_THRESHOLD * period) / Period::Year;
-    const int64_t periodHigherThreshold = (HIGHER_RATE_THRESHOLD * period) / Period::Year;
-    const int64_t periodTaperingThreshold = (PERSONAL_ALLOWANCE_LOSS_THRESHOLD * period) / Period::Year;
-    const int64_t periodAdditionalThreshold = (ADDITIONAL_RATE_THRESHOLD * period) / Period::Year;
+    // Calculate all period_-adjusted thresholds once
+    const int64_t periodPersonalAllowance = (taxCode_->personalAllowance * period_) / Period::Year;
+    const int64_t periodBasicThreshold = (BASIC_RATE_THRESHOLD * period_) / Period::Year;
+    const int64_t periodHigherThreshold = (HIGHER_RATE_THRESHOLD * period_) / Period::Year;
+    const int64_t periodTaperingThreshold = (PERSONAL_ALLOWANCE_LOSS_THRESHOLD * period_) / Period::Year;
+    const int64_t periodAdditionalThreshold = (ADDITIONAL_RATE_THRESHOLD * period_) / Period::Year;
 
     if (cumulativeIncome <= periodPersonalAllowance) {
         return NO_INCOME_TAX_DUE;
