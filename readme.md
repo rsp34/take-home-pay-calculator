@@ -189,7 +189,7 @@ The features I would like to leverage as part of this project are:
 - [x] Switch from frequency to period
 - [x] Switch to pennies and use int64_t
 - [x] Each class in separate file with headers
-- [ ] Implement Strategy + Registry pattern for tax computation
+- [x] Implement Strategy + Registry pattern for tax computation
   - [x] Create TaxComputationStrategy interface
   - [x] Implement CumulativeTaxStrategy and FlatTaxStrategy
   - [x] Create TaxRegistry
@@ -197,9 +197,11 @@ The features I would like to leverage as part of this project are:
   - [x] Update PayItem with applicableTaxes and taxAmounts
   - [x] Rewrite Payslip.computeTaxes() to use registry
   - [x] Add a Payslip.print?
-  - [x] Clarify nomenclature around compute and calculate as it's confusing
-  - [ ] Create UK tax setup with registration
+  - [x] Clarify nomenclature around compute and calculate as its confusing
+  - [x] Create UK tax setup with registration
 - [ ] Complete UKIncomeTax and UKNationalInsurance implementations
+- [ ] Move applyRate into its own file?
+- [ ] Assess where classes are necessary...
 - [ ] Overload operators for summation and division
 - [ ] Improve main function (CLI interface)
 - [ ] Implement testing
