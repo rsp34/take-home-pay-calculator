@@ -4,8 +4,9 @@
 
 class TaxRegistration;
 
-struct TaxRegistry{
-    std::map<std::string, TaxRegistration> registrations_;
-
-    const TaxRegistration& getTaxRegistration(const std::string& name);
+class TaxRegistry
+{
+public:
+    std::map<std::string_view, TaxRegistration> registrations_;
+    const TaxRegistration& getTaxRegistration(std::string_view name) const;
 };
