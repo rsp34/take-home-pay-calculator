@@ -195,7 +195,8 @@ The features I would like to leverage as part of this project are:
   - [x] Create TaxRegistry
   - [x] Create UK tax name constants
   - [x] Update PayItem with applicableTaxes and taxAmounts
-  - [ ] Rewrite Payslip.computeTaxes() to use registry
+  - [x] Rewrite Payslip.computeTaxes() to use registry
+  - [x] Add a Payslip.print?
   - [ ] Clarify nomenclature around compute and calculate as it's confusing
   - [ ] Create UK tax setup with registration
 - [ ] Complete UKIncomeTax and UKNationalInsurance implementations
