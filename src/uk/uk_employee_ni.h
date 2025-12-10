@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <ratio>
 #include "../tax/tax.h"
 
 class UKTaxCode;
@@ -10,7 +11,7 @@ using UPPER_RATE = std::ratio<2, 100>;
 
 // Weekly thresholds
 constexpr int64_t LOWER_EARNINGS_LIMIT = 125;
-constexpr int64_t BASIC_RATE_THRESHOLD = 242;
+constexpr int64_t PRIMARY_RATE_THRESHOLD = 242;
 constexpr int64_t HIGHER_RATE_THRESHOLD = 967;
 
 class UKEmployeeNI : public Tax
@@ -22,7 +23,7 @@ public:
     const std::shared_ptr<UKTaxCode> taxCode_;
 
 public:
-    int64_t calculateTax(int64_t cumulativeIncome) const override;
+    int64_t calculateTax(int64_t taxableIncome) const override;
     UKEmployeeNI operator+(const UKEmployeeNI);
     UKEmployeeNI operator-(const UKEmployeeNI);
     UKEmployeeNI operator/(const UKEmployeeNI);
