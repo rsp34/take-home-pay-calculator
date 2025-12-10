@@ -1,10 +1,16 @@
-#include<iostream>
+// Quotes mean relative to project root
+// <> means from include path
+
+#include <iostream>
 #include "./src/uk/uk_tax_code.h"
 #include "./src/uk/uk_tax_setup.h"
 #include "./src/uk/uk_pay_item_factory.h"
 #include "./src/tax/tax_registry.h"
 #include "./src/uk/uk_tax_setup.h"
 #include "./src/pay/payslip.h"
+#ifdef _WIN32
+    #include <windows.h>
+#endif
 
 // Why would I use a diretive over a function
 // Replace with a function
@@ -16,6 +22,9 @@ int64_t pence(int64_t pounds, int64_t pence){
 }
 
 int main(){
+    #ifdef _WIN32
+        SetConsoleOutputCP(CP_UTF8);
+    #endif
     std::shared_ptr<UKTaxCode> taxCode = std::make_shared<UKTaxCode>("1257L");
     int64_t period = 31;
     std::shared_ptr<TaxRegistry> ukTaxRegistry = createUKTaxRegistry(taxCode, period);
