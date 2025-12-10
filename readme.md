@@ -200,6 +200,7 @@ The features I would like to leverage as part of this project are:
   - [x] Clarify nomenclature around compute and calculate as its confusing
   - [x] Create UK tax setup with registration
 - [x] Complete UKIncomeTax and UKNationalInsurance implementations
+- [ ] UKIncomeTax and UKNationalInsurance bands are not in pennies.
 - [ ] Include the PayItem knowledge in the tax registry?
 - [ ] Create own alternative to ratio
 - [ ] Fix includes
