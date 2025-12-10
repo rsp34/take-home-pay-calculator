@@ -3,77 +3,170 @@
 ## Requirements
 - A user may predict their payslip, including for multiple jobs, by entering their annual salary and benefits.
 - A user may enter their current payslip, including for multiple jobs, and see this scaled to other frequencies.
+- We want proportional and marginal taxation view.
 - Frequencies of interest are daily, work day, weekly, monthly and annually.
 - Looping over the would be interesting.
 
 ## Design
 
 ### Key Design Decisions
-The project is split into 4 components: 
+The project is split into 5 components:
 
-1. PayItem: Domain model - represents a line item (salary, bonus, pension, etc.)
-2. Tax: Tax tracking - represents a tax due on a specific line item
-3. Factory: Construction logic - knows which taxes apply to which items
-4. Payslip: Orchestration - manages items, triggers calculations, displays results
+1. **PayItem**: Domain model - represents a line item (salary, bonus, pension, etc.)
+   - Has an `EffectType` for accounting (TaxableAddition, PreTaxDeduction, etc.)
+   - Declares which taxes apply by name
+   - Stores computed tax amounts after calculation
 
-Tax is an abstract interface where each jurisdiction implements its own concrete taxes (e.g., `UKIncomeTax`, `USFederalTax`). PayItem doesn't care what kind of tax it is - just calls `calculateTax()`.
+2. **Tax**: Stateless calculator - pure function that calculates tax on a given amount
+   - Each tax is its own class (UKIncomeTax, UKNationalInsurance, etc.)
+   - Pure function: `int64_t calculateTax(int64_t amount) const`
 
-PayItems contain taxes (via `std::vector<std::unique_ptr<Tax>>`). Not hardcoded like "if UK then calculate income tax".  Different items can have different combinations of taxes. Each pay item owns its taxes.
+3. **TaxComputationStrategy**: Accumulation logic - defines how to apply a tax across multiple items
+   - `CumulativeTaxStrategy`: Accumulates amounts, calculates once, distributes proportionally
+   - `FlatTaxStrategy`: Calculates per item independently
 
-`Tax`es, `PayItems`, `Payslips`,  and  can be accumulated and split using the add and divide operators. The accumulation works over all levels as follows:
+4. **TaxRegistry**: Configuration - maps tax names to calculators and strategies
+   - Created once per jurisdiction at startup
+   - Single source of truth for all available taxes
+
+5. **Payslip**: Orchestration - manages items, triggers calculations, displays results
+
+#### Tax Calculation Flow
+
+**Two types of taxes:**
+- **Flat taxes** (Employer NI, pensions): Calculate independently per item
+- **Cumulative taxes** (Income Tax, Employee NI): Accumulate across items, then attribute back
+
+**Architecture:**
+```
+Payslip → TaxRegistry → TaxComputationStrategy → Tax calculator
+```
+
+#### Jurisdiction-Specific Components
+
+Each jurisdiction (UK, US, etc.) provides:
+
+1. **Tax Calculators**: Individual classes implementing the `Tax` interface
+   - `UKIncomeTax`, `UKNationalInsurance`, `UKEmployerNI`, etc.
+   - Each in its own file with the tax formula
+
+2. **Tax Name Constants**: Compile-time constants to eliminate string duplication
+   - `UKTaxNames::INCOME_TAX`, `UKTaxNames::EMPLOYEE_NI`, etc.
+   - Used by both registry and factory
+
+3. **Registry Setup Function**: Registers all jurisdiction taxes in one place
+   - `createUKTaxRegistry()` - lists all UK taxes with their strategies
+   - Easy to see all taxes at a glance
+
+4. **PayItem Factory**: Creates items with correct taxes applied
+   - `UKPayItemFactory::createSalary()` - knows salary gets income tax + NI
+   - Encapsulates jurisdiction-specific rules
+
+**Adding a new jurisdiction:**
+- Create tax calculator classes
+- Create constants file
+- Create registry setup function
+- Create factory
+- No changes needed to PayItem, Payslip, or core tax infrastructure
+
+### Design Summary
+
+1. **Registry setup (done once at initialization)**
+```
+   └─> createUKTaxRegistry(taxCode, period)
+       ├─> Creates individual tax calculators:
+       │   ├─> UKIncomeTax(taxCode, period)
+       │   ├─> UKNationalInsurance(period)
+       │   └─> UKEmployerNI(period)
+       ├─> Creates reusable strategies:
+       │   ├─> CumulativeTaxStrategy (shared)
+       │   └─> FlatTaxStrategy (shared)
+       └─> TaxRegistry
+           ├─> UKTaxNames::INCOME_TAX → (UKIncomeTax, CumulativeStrategy)
+           └─> UKTaxNames::EMPLOYEE_NI → (UKNationalInsurance, CumulativeStrategy)
+```
+
+2. **Factory creates PayItem with tax declarations**
+```
+   └─> UKPayItemFactory.createSalary(3000)
+       └─> PayItem {
+             name: "Salary",
+             amount: 3000,
+             effectType: TaxableAddition,
+             taxes: [UKTaxNames::INCOME_TAX, UKTaxNames::EMPLOYEE_NI],
+             taxAmounts: {} (empty until computed)
+           }
+```
+
+3. **Payslip receives the PayItem**
+```
+   └─> Payslip.addItem(salary)
+       └─> payItems vector now contains: [salary, bonus, ...]
+```
+
+4. **Payslip computes taxes**
+```
+   └─> Payslip.computeTaxes()
+       └─> For each tax name (INCOME_TAX, EMPLOYEE_NI):
+           ├─> TaxRegistry.getTaxRegistration(INCOME_TAX)
+           │   └─> Returns: (UKIncomeTax calculator, CumulativeStrategy)
+           ├─> CumulativeStrategy.computeTax(payItems, INCOME_TAX, UKIncomeTax)
+           │   ├─> Accumulate: £3000 + £1000 = £4000
+           │   ├─> Calculate: UKIncomeTax.calculateTax(£4000) = £590
+           │   └─> Distribute: salary 75% (£442.50), bonus 25% (£147.50)
+           └─> Store results back in PayItems:
+               ├─> salary.taxAmounts[INCOME_TAX] = £442.50
+               └─> bonus.taxAmounts[INCOME_TAX] = £147.50
+```
+
+5. **Display results**
+```
+   └─> For each PayItem:
+       ├─> salary.getTaxAmount(INCOME_TAX) → £442.50
+       ├─> salary.getTaxAmount(EMPLOYEE_NI) → £240.00
+       └─> Total tax = £682.50, Net pay = £2317.50
+```
+
+#### Operator Overloading
+
+Taxes, PayItems, and Payslips can be accumulated and split using operators:
 
 - Tax + Tax = combined tax calculation
-- PayItem + PayItem = combined items with accumulated taxes  
+- PayItem + PayItem = combined items with accumulated taxes
 - Payslip + Payslip = combined payslips (would contain equivalent information to a tax return)
 
-A  year's worth of payslips may be elegantly summarised, 
+A year's worth of payslips may be elegantly summarised:
 
-```
+```cpp
 annual_income = jan + feb + mar + ... + dec
 ```
 
-or, split into daily payslips.
+or split into daily payslips:
 
-```
+```cpp
 daily_income = annual_income*Period::Annual/Period::Daily
 ```
 
-Factories encapsulate country-specific rules, e.g.:
-
-- UKPayItemFactory knows: "salary gets income tax + NI + student loan"
-- USPayItemFactory knows: "salary gets federal tax + social security"
-
-Client code just calls factory.createSalary(3000). Adding a new country requires adding a new factory and the necessary tax models, without the need to change PayItem or Payslip.
-
-EffectType separate from tax treatment - EffectType is for accounting (gross/net), TaxModels are for actual tax rules.
-
-### Design Summary
-1. Factory creates PayItem with appropriate Taxes attached
-```
-   └─> UKPayItemFactory.createSalary(3000)
-       └─> PayItem { amount: 3000, taxes: [IncomeTax, NI, StudentLoan] }
-```
-
-2. Payslip receives the PayItem
-```
-   └─> payslip.addItem(item)
-```
-
-3. Payslip computes taxes
-```
-   └─> For each PayItem:
-       └─> For each tax in item.taxes:
-           └─> taxDue = tax.calculate(item.amount)
-           └─> Accumulate totals
-```
-
-4. Payslip displays results
-```
-   └─> Shows items, taxes, net pay
-```
-
 ## Project Structure
-Jurisdiction-specific code is stored in seperate folders e.g. there is a `uk` folder.
+```
+src/
+├─ tax/                              # Core tax infrastructure (jurisdiction-agnostic)
+│  ├─ tax.h                         # Tax interface
+│  ├─ tax_computation_strategy.h    # Strategy interface
+│  ├─ cumulative_tax_strategy.h/cpp # Cumulative logic
+│  ├─ flat_tax_strategy.h/cpp       # Flat logic
+│  └─ tax_registry.h/cpp            # Registry
+├─ pay/                              # Pay domain models (jurisdiction-agnostic)
+│  ├─ pay_item.h                    # PayItem with EffectType
+│  └─ payslip.h/cpp                 # Payslip orchestrator
+└─ uk/                               # UK-specific implementation
+   ├─ uk_tax_names.h                # Tax name constants
+   ├─ uk_income_tax.h/cpp           # Income Tax calculator
+   ├─ uk_national_insurance.h/cpp   # NI calculator
+   ├─ uk_employer_ni.h/cpp          # Employer NI calculator
+   ├─ uk_tax_setup.h/cpp            # Registry setup (all UK taxes)
+   └─ uk_pay_item_factory.h         # UK item factory
+```
 
 ## Technologies
 A focus of this project is understanding the features of C++.
@@ -93,17 +186,23 @@ The features I would like to leverage as part of this project are:
 - "Company value" could also be interesting. How much is my employer paying for the benefit of employing me - main addition would be employer N.I.
 
 # ToDo
-I've attempted to estimate times here...
-- [ ] Switch from frequency to period (10 minutes)
-- [ ] Re-implement the Tax classes (2 hours)
-- [ ] Re-implement the PayItem class to reference new tax class (0.5 hours)
-- [ ] Switch to pennies and use ratio (1 hour)
-- [ ] Each class should have it's own separate file  (accounted above)
-- [ ] Break out headers (accounted above)
-- [ ] Remove all the magic numbers (accounted above)
-- [ ] Break out one-liners (accounted above)
-- [ ] Overload operators to enable summation and division (3 hours)
-- [ ] Improve the main function so it does something (2 hours)
-- [ ] Switch the main function to a CLI interface (3 hours)
+- [x] Switch from frequency to period
+- [x] Switch to pennies and use int64_t
+- [x] Each class in separate file with headers
+- [x] Implement Strategy + Registry pattern for tax computation
+  - [x] Create TaxComputationStrategy interface
+  - [x] Implement CumulativeTaxStrategy and FlatTaxStrategy
+  - [x] Create TaxRegistry
+  - [x] Create UK tax name constants
+  - [x] Update PayItem with applicableTaxes and taxAmounts
+  - [x] Rewrite Payslip.computeTaxes() to use registry
+  - [x] Add a Payslip.print?
+  - [x] Clarify nomenclature around compute and calculate as its confusing
+  - [x] Create UK tax setup with registration
+- [ ] Complete UKIncomeTax and UKNationalInsurance implementations
+- [ ] Move applyRate into its own file?
+- [ ] Assess where classes are necessary...
+- [ ] Overload operators for summation and division
+- [ ] Improve main function (CLI interface)
 - [ ] Implement testing
-- [ ] Add some CI/CD and a first release
+- [ ] Add CI/CD and first release
