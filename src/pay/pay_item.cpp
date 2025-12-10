@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "pay_item.h"
 
-bool PayItem::hasTax(std::string taxName){
+bool PayItem::hasTax(std::string_view taxName){
     return (std::find(applicableTaxes_.begin(),applicableTaxes_.end(),taxName) != applicableTaxes_.end());
 };
 

@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
+#include "uk_tax_code.h"
+#include "../tax/tax_registry.h"
 
-class TaxRegistry;
-class UKTaxCode;
-
-std::shared_ptr<TaxRegistry> createUKTaxRegistry(std::shared_ptr<UKTaxCode> taxCode);
+std::shared_ptr<TaxRegistry> createUKTaxRegistry(std::shared_ptr<UKTaxCode> taxCode, int period);
