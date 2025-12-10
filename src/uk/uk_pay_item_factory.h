@@ -1,7 +1,8 @@
 #pragma once
 #include "uk_tax_names.h"
+#include "../pay/pay_item.h"
 
-class PayItem;
+//class PayItem;
 
 class UKPayItemFactory
 {

@@ -16,7 +16,11 @@ enum class EffectType
 };
 
 struct PayItem
-{
+{   
+
+    // Is this bad practice??
+
+    // I've got a mix of definitions and implementations
     PayItem(const std::string name, int64_t amount, EffectType effectType, bool oneOff = false)
         : name_(name), amount_(amount), effectType_(effectType), oneOff_(oneOff)
     {
@@ -37,3 +41,7 @@ struct PayItem
 
     int64_t getTaxableAmount() const;
 };
+
+// How do I think about the header file?
+// Ask yourself does somebody using my class need to know this piece of implementation
+// If you have a strange implementation of  specific function, you may want to include comments in the header for others to read.
