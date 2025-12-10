@@ -16,4 +16,5 @@ int64_t PayItem::getTaxableAmount() const{
     case EffectType::PostTaxDeduction:
         return 0;
     }
+    return 0;
 }

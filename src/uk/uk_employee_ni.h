@@ -2,17 +2,15 @@
 #include <memory>
 #include <ratio>
 #include "../tax/tax.h"
+#include "uk_tax_code.h"
 
-class UKTaxCode;
-
-constexpr int NO_INCOME_TAX_DUE = 0;
 using PRIMARY_RATE = std::ratio<8, 100>;
 using UPPER_RATE = std::ratio<2, 100>;
 
 // Weekly thresholds
 constexpr int64_t LOWER_EARNINGS_LIMIT = 125;
 constexpr int64_t PRIMARY_RATE_THRESHOLD = 242;
-constexpr int64_t HIGHER_RATE_THRESHOLD = 967;
+constexpr int64_t UPPER_RATE_THRESHOLD = 967;
 
 class UKEmployeeNI : public Tax
 {

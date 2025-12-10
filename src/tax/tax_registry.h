@@ -1,8 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
-
-class TaxRegistration;
+#include "tax_registration.h"
 
 class TaxRegistry
 {
