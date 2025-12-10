@@ -199,8 +199,10 @@ The features I would like to leverage as part of this project are:
   - [x] Add a Payslip.print?
   - [x] Clarify nomenclature around compute and calculate as its confusing
   - [x] Create UK tax setup with registration
-- [ ] Complete UKIncomeTax and UKNationalInsurance implementations
-- [ ] Move applyRate into its own file?
+- [x] Complete UKIncomeTax and UKNationalInsurance implementations
+- [ ] Include the PayItem knowledge in the tax registry
+- [ ] Create own alternative to ratio
+- [ ] Fix includes
 - [ ] Assess where classes are necessary...
 - [ ] Overload operators for summation and division
 - [ ] Improve main function (CLI interface)
