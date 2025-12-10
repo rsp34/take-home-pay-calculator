@@ -204,6 +204,7 @@ The features I would like to leverage as part of this project are:
 - [ ] Create own alternative to ratio
 - [ ] Fix includes
 - [ ] Remove string_view
+- [ ] TaxRegistration could be overkill as C++ developers 
 - [ ] Assess where classes are necessary...
 - [ ] Overload operators for summation and division
 - [ ] Improve main function (CLI interface)
