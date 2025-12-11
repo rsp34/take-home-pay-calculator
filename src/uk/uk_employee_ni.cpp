@@ -9,14 +9,14 @@ int64_t UKEmployeeNI::calculateTax(int64_t taxableAmount) const
     int64_t upperRateIncome = 0;
     if (weeklyTaxableAmount > PRIMARY_RATE_THRESHOLD)
     {
-        if (weeklyTaxableAmount < HIGHER_RATE_THRESHOLD)
+        if (weeklyTaxableAmount < UPPER_RATE_THRESHOLD)
         {
             primaryRateIncome = weeklyTaxableAmount - PRIMARY_RATE_THRESHOLD;
         }
         else
         {
-            primaryRateIncome = HIGHER_RATE_THRESHOLD - PRIMARY_RATE_THRESHOLD;
-            upperRateIncome = weeklyTaxableAmount - HIGHER_RATE_THRESHOLD;
+            primaryRateIncome = UPPER_RATE_THRESHOLD - PRIMARY_RATE_THRESHOLD;
+            upperRateIncome = weeklyTaxableAmount - UPPER_RATE_THRESHOLD;
         }
     }
 

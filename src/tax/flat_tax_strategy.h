@@ -7,7 +7,7 @@ class FlatTaxStrategy : public TaxComputationStrategy{
     virtual ~FlatTaxStrategy() = default;
 
     void applyTax(
-        const std::string& taxName,
+        const std::string_view& taxName,
         const Tax& calculator,
         std::vector<std::shared_ptr<PayItem>>& payItems
     ) const override;

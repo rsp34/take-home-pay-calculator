@@ -35,9 +35,9 @@ struct PayItem
     EffectType effectType_;
     bool oneOff_;
     std::vector<std::string_view> applicableTaxes_;
-    std::map<std::string, int64_t> taxAmounts_;
+    std::map<std::string_view, int64_t> taxAmounts_;
 
-    bool hasTax(std::string taxName);
+    bool hasTax(std::string_view taxName);
 
     int64_t getTaxableAmount() const;
 };

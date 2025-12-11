@@ -25,7 +25,7 @@ void Payslip::printPayslip() const
     int64_t grossTotal = 0;
     int64_t taxTotal = 0;
     
-    for (const std::shared_ptr<PayItem>& item : payItems_)
+    for (const std::shared_ptr<PayItem> &item : payItems_)
     {
         std::cout << std::left << std::setw(30) << item->name_ 
                   << std::right << "£" << std::setw(8) 
@@ -34,7 +34,7 @@ void Payslip::printPayslip() const
         
         grossTotal += item->amount_;
         
-        for (const std::pair<const std::string, int64_t>& taxEntry : item->taxAmounts_)
+        for (const std::pair<const std::string_view, int64_t>& taxEntry : item->taxAmounts_)
         {
             std::cout << "  " << std::left << std::setw(28) << taxEntry.first 
                       << std::right << "-£" << std::setw(7)

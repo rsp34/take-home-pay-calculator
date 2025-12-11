@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "pay_item.h"
 
-bool PayItem::hasTax(std::string taxName){
+bool PayItem::hasTax(std::string_view taxName){
     return (std::find(applicableTaxes_.begin(),applicableTaxes_.end(),taxName) != applicableTaxes_.end());
 };
 
@@ -16,4 +16,5 @@ int64_t PayItem::getTaxableAmount() const{
     case EffectType::PostTaxDeduction:
         return 0;
     }
+    return 0;
 }

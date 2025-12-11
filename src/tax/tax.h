@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <cstdint>
-#include ratio
+#include <ratio>
 
 class Tax{
     public:
