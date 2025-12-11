@@ -200,16 +200,22 @@ The features I would like to leverage as part of this project are:
   - [x] Clarify nomenclature around compute and calculate as its confusing
   - [x] Create UK tax setup with registration
 - [x] Complete UKIncomeTax and UKNationalInsurance implementations
-- [ ] Create a Pennies
-- [ ] Overload the "<<" operator for pennies
-- [ ] UKIncomeTax and UKNationalInsurance bands are not in pennies.
-- [ ] Include the PayItem knowledge in the tax registry?
-- [ ] Create own alternative to ratio
+- [ ] Create currency types so that we are using the right currencies
+- [ ] Overload the "<<" operator for pennies for printing PayItem
+- [ ] Update payItems and tax to use a currency
+- [ ] Create own alternative to ratio to avoid template usage
 - [ ] Fix includes
 - [ ] Remove string_view
-- [ ] TaxRegistration could be overkill as C++ developers 
-- [ ] Assess where classes are necessary...
+- [ ] TaxRegistration could be overkill as C++ developers prefer to avoid small class declaration?
+- [ ] Assess usage of structs vs classes vs functions vs namespace
+- [ ] Include the PayItem knowledge in the tax registry?
 - [ ] Overload operators for summation and division
-- [ ] Improve main function (CLI interface)
-- [ ] Implement testing
+- [ ] Implement a CLI interface for the main function
+- [ ] Build out tests
 - [ ] Add CI/CD and first release
+- [ ] Build out UK tax rules
+- [ ] Add a Python wrapper
+
+## References
+https://uk-income.zainp.com/
+https://www.thesalarycalculator.co.uk/
