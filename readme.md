@@ -200,9 +200,9 @@ The features I would like to leverage as part of this project are:
   - [x] Clarify nomenclature around compute and calculate as its confusing
   - [x] Create UK tax setup with registration
 - [x] Complete UKIncomeTax and UKNationalInsurance implementations
-- [ ] Create currency types so that we are using the right currencies
-- [ ] Overload the "<<" operator for pennies for printing PayItem
-- [ ] Update payItems and tax to use a currency
+- [x] Create currency types so that we are using the right currencies
+- [x] Overload the "<<" operator for pennies for printing PayItem
+- [ ] Make payItems and tax templates to use a currency
 - [ ] Create own alternative to ratio to avoid template usage
 - [ ] Fix includes
 - [ ] Remove string_view
