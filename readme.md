@@ -188,7 +188,6 @@ The features I would like to leverage as part of this project are:
 # ToDo
 - [x] Switch from frequency to period
 - [x] Switch to pennies and use int64_t
-- [x] Each class in separate file with headers
 - [x] Implement Strategy + Registry pattern for tax computation
   - [x] Create TaxComputationStrategy interface
   - [x] Implement CumulativeTaxStrategy and FlatTaxStrategy
@@ -199,22 +198,37 @@ The features I would like to leverage as part of this project are:
   - [x] Add a Payslip.print?
   - [x] Clarify nomenclature around compute and calculate as its confusing
   - [x] Create UK tax setup with registration
-- [x] Complete UKIncomeTax and UKNationalInsurance implementations
-- [ ] Create currency types so that we are using the right currencies
-- [ ] Overload the "<<" operator for pennies for printing PayItem
-- [ ] Update payItems and tax to use a currency
-- [ ] Create own alternative to ratio to avoid template usage
-- [ ] Fix includes
-- [ ] Remove string_view
-- [ ] TaxRegistration could be overkill as C++ developers prefer to avoid small class declaration?
-- [ ] Assess usage of structs vs classes vs functions vs namespace
-- [ ] Include the PayItem knowledge in the tax registry?
-- [ ] Overload operators for summation and division
+- [ ] Restructure Tax classes
+   - [ ] Rename the tax registry as tax authority.
+   - [ ] Include the PayItem knowledge in the tax registry. Taxes change more frequently than the items they apply so it makes sense that our abstraction represents this. Taxes or a TaxAuthority *should* know which payItems they apply to.
+   - [ ] TaxRegistration is overkill as C++ developers prefer to avoid small class declaration, replace it with a `std::pair` as we want to *pair* strategies with calculators?
+   - [ ] payItem, Taxes type as enums to avoid string matching
+   - [ ] Replace factory pattern with a class?
+   - [ ] Review `EffectType` implementation to still allow the taxes to be applied at the right stage in the payslip, for tax relief to be assessed and for taxes on things that would be considered *post-tax deduction* like VAT.
+- [ ] Create a currency class:
+   - [x] Overload the "<<" operator for printing
+   - [ ] Create a constructor with GBP that takes pennies or pounds and pennies
+   - [ ] Create own alternative to ratio to avoid template usage (though not recommended by all reviewers)
+   - [ ] Check overhead of currency class in Ghidra.
+- [ ] Update function signatures so that we are using the right currencies
+- [ ] Implement the payslip:
+   - [ ] Print payslip should accept an output stream
+   - [ ] Payslip class should not expose applyTaxes
+- [ ] Style:
+   - [x] Each class in separate file with headers
+   - [ ] Remove string_view
+   - [ ] Fix includes
+   - [ ] Assess usage of structs vs classes vs functions vs namespace
+- [ ] Implement UK Tax Rules
+   - [ ] Validate the UK tax code on construction
+   - [x] Complete UKIncomeTax and UKNationalInsurance implementations
+   - [ ] Build out UK tax rules...
 - [ ] Implement a CLI interface for the main function
 - [ ] Build out tests
 - [ ] Add CI/CD and first release
-- [ ] Build out UK tax rules
 - [ ] Add a Python wrapper
+- [ ] Overload operators for summation and division
+
 
 ## References
 https://uk-income.zainp.com/
