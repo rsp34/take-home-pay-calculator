@@ -200,16 +200,9 @@ The features I would like to leverage as part of this project are:
   - [x] Create UK tax setup with registration
 - [ ] Restructure Tax classes
    - [ ] Rename the tax registry as tax authority.
-   - [ ] Include the PayItem knowledge in the tax registry. Taxes change more frequently than the items they apply so it makes sense that our abstraction represents this.
-   - [ ] TaxRegistration is overkill as C++ developers prefer to avoid small class declaration, replace it with a `std::pair` as we want to *pair* strategies with calculators. 
-   - [ ] payItem type as enums
-   - [ ] Taxes as enums
-   - [ ] Taxes know which payItems they apply to.
-   - [ ] Replace string matching used by the tax_registry with an ENUM
-   - [ ] And how taxes are paid to the registry.
-   - [ ] Rename registry as authority.
-   - [ ] Use maps and pairs to handle the mapping
-   - [ ] TaxRegistration is an unnecessary class
+   - [ ] Include the PayItem knowledge in the tax registry. Taxes change more frequently than the items they apply so it makes sense that our abstraction represents this. Taxes or a TaxAuthority *should* know which payItems they apply to.
+   - [ ] TaxRegistration is overkill as C++ developers prefer to avoid small class declaration, replace it with a `std::pair` as we want to *pair* strategies with calculators?
+   - [ ] payItem, Taxes type as enums to avoid string matching
    - [ ] Replace factory pattern with a class?
 - [ ] Create a currency class:
    - [x] Overload the "<<" operator for printing
@@ -221,13 +214,13 @@ The features I would like to leverage as part of this project are:
    - [ ] Print payslip should accept an output stream
    - [ ] Payslip class should not expose applyTaxes
 - [ ] Style:
+   - [x] Each class in separate file with headers
    - [ ] Remove string_view
    - [ ] Fix includes
    - [ ] Assess usage of structs vs classes vs functions vs namespace
-   - [x] Each class in separate file with headers
 - [ ] Implement UK Tax Rules
    - [ ] Validate the UK tax code on construction
-   - [ ] Complete UKIncomeTax and UKNationalInsurance implementations
+   - [x] Complete UKIncomeTax and UKNationalInsurance implementations
    - [ ] Build out UK tax rules...
 - [ ] Implement a CLI interface for the main function
 - [ ] Build out tests
