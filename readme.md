@@ -188,7 +188,6 @@ The features I would like to leverage as part of this project are:
 # ToDo
 - [x] Switch from frequency to period
 - [x] Switch to pennies and use int64_t
-- [x] Each class in separate file with headers
 - [x] Implement Strategy + Registry pattern for tax computation
   - [x] Create TaxComputationStrategy interface
   - [x] Implement CumulativeTaxStrategy and FlatTaxStrategy
@@ -199,21 +198,41 @@ The features I would like to leverage as part of this project are:
   - [x] Add a Payslip.print?
   - [x] Clarify nomenclature around compute and calculate as its confusing
   - [x] Create UK tax setup with registration
-- [x] Complete UKIncomeTax and UKNationalInsurance implementations
-- [x] Create currency types so that we are using the right currencies
-- [x] Overload the "<<" operator for pennies for printing PayItem
-- [ ] Make payItems and tax templates to use a currency
-- [ ] Create own alternative to ratio to avoid template usage
-- [ ] Fix includes
-- [ ] Remove string_view
-- [ ] TaxRegistration could be overkill as C++ developers prefer to avoid small class declaration?
-- [ ] Assess usage of structs vs classes vs functions vs namespace
-- [ ] Include the PayItem knowledge in the tax registry?
-- [ ] Overload operators for summation and division
+- [ ] Restructure Tax classes
+   - [ ] Rename the tax registry as tax authority.
+   - [ ] Include the PayItem knowledge in the tax registry. Taxes change more frequently than the items they apply so it makes sense that our abstraction represents this.
+   - [ ] TaxRegistration is overkill as C++ developers prefer to avoid small class declaration, replace it with a `std::pair` as we want to *pair* strategies with calculators. 
+   - [ ] payItem type as enums
+   - [ ] Taxes as enums
+   - [ ] Taxes know which payItems they apply to.
+   - [ ] Replace string matching used by the tax_registry with an ENUM
+   - [ ] And how taxes are paid to the registry.
+   - [ ] Rename registry as authority.
+   - [ ] Use maps and pairs to handle the mapping
+   - [ ] TaxRegistration is an unnecessary class
+   - [ ] Replace factory pattern with a class?
+- [ ] Create a currency class:
+   - [x] Overload the "<<" operator for printing
+   - [ ] Create a constructor with GBP that takes pennies or pounds and pennies
+   - [ ] Create own alternative to ratio to avoid template usage (though not recommended by all reviewers)
+   - [ ] Check overhead of currency class in Ghidra.
+- [ ] Update function signatures so that we are using the right currencies
+- [ ] Implement the payslip:
+   - [ ] Print payslip should accept an output stream
+   - [ ] Payslip class should not expose applyTaxes
+- [ ] Style:
+   - [ ] Remove string_view
+   - [ ] Fix includes
+   - [ ] Assess usage of structs vs classes vs functions vs namespace
+   - [x] Each class in separate file with headers
+- [ ] Implement UK Tax Rules
+   - [ ] Validate the UK tax code on construction
+   - [ ] Complete UKIncomeTax and UKNationalInsurance implementations
+   - [ ] Build out UK tax rules...
 - [ ] Implement a CLI interface for the main function
 - [ ] Build out tests
 - [ ] Add CI/CD and first release
-- [ ] Build out UK tax rules
+- [ ] Overload operators for summation and division
 - [ ] Add a Python wrapper
 
 ## References
