@@ -204,6 +204,7 @@ The features I would like to leverage as part of this project are:
    - [ ] TaxRegistration is overkill as C++ developers prefer to avoid small class declaration, replace it with a `std::pair` as we want to *pair* strategies with calculators?
    - [ ] payItem, Taxes type as enums to avoid string matching
    - [ ] Replace factory pattern with a class?
+   - [ ] Review `EffectType` implementation to still allow the taxes to be applied at the right stage in the payslip, for tax relief to be assessed and for taxes on things that would be considered *post-tax deduction* like VAT.
 - [ ] Create a currency class:
    - [x] Overload the "<<" operator for printing
    - [ ] Create a constructor with GBP that takes pennies or pounds and pennies
@@ -225,8 +226,9 @@ The features I would like to leverage as part of this project are:
 - [ ] Implement a CLI interface for the main function
 - [ ] Build out tests
 - [ ] Add CI/CD and first release
-- [ ] Overload operators for summation and division
 - [ ] Add a Python wrapper
+- [ ] Overload operators for summation and division
+
 
 ## References
 https://uk-income.zainp.com/
